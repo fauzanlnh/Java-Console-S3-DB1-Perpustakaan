@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">db_ta_pbo_perpustakaan</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="t_tipe" view="colnames">
+<left>141</left>
+<top>333</top>
+<width>103</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `t_tipe` (
+  `KdTipe` int(3) NOT NULL AUTO_INCREMENT,
+  `NamaTipe` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`KdTipe`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="t_jenis" view="colnames">
+<left>430</left>
+<top>350</top>
+<width>89</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `t_jenis` (
+  `KdJenis` int(3) NOT NULL AUTO_INCREMENT,
+  `Jenis` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`KdJenis`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="t_koleksi" view="colnames">
+<left>267</left>
+<top>18</top>
+<width>140</width>
+<height>248</height>
+<sql_create_table>CREATE TABLE `t_koleksi` (
+  `Kode` int(20) NOT NULL AUTO_INCREMENT,
+  `Judul` varchar(30) DEFAULT NULL,
+  `NamaPengarang` varchar(30) DEFAULT NULL,
+  `NamaPenerbit` varchar(30) DEFAULT NULL,
+  `TahunTerbit` varchar(4) DEFAULT NULL,
+  `NoRak` varchar(10) DEFAULT NULL,
+  `KdJenis` int(3) DEFAULT NULL,
+  `KdTipe` int(3) DEFAULT NULL,
+  `Lokasi` varchar(20) DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL,
+  `EstimasiPengembalian` date DEFAULT NULL,
+  PRIMARY KEY (`Kode`),
+  KEY `IdRak` (`NoRak`),
+  KEY `IdTipe` (`KdTipe`),
+  KEY `KdJenis` (`KdJenis`),
+  CONSTRAINT `t_koleksi_ibfk_1` FOREIGN KEY (`KdTipe`) REFERENCES `t_tipe` (`KdTipe`),
+  CONSTRAINT `t_koleksi_ibfk_2` FOREIGN KEY (`KdJenis`) REFERENCES `t_jenis` (`KdJenis`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="t_anggota" view="colnames">
+<left>888</left>
+<top>2</top>
+<width>108</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `t_anggota` (
+  `KdAnggota` varchar(8) NOT NULL,
+  `Status` varchar(12) DEFAULT NULL,
+  `Nama` varchar(30) DEFAULT NULL,
+  `NoTelp` varchar(15) DEFAULT NULL,
+  `ALamat` varchar(50) DEFAULT NULL,
+  `Jurusan` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`KdAnggota`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="t_peminjaman" view="colnames">
+<left>638</left>
+<top>18</top>
+<width>173</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `t_peminjaman` (
+  `KdPeminjaman` int(11) NOT NULL AUTO_INCREMENT,
+  `Kode` int(20) DEFAULT NULL,
+  `KdAnggota` varchar(8) DEFAULT NULL,
+  `TglPinjam` date DEFAULT NULL,
+  `TglKembali` date DEFAULT NULL,
+  `EstimasiPengembalian` date DEFAULT NULL,
+  `Denda` int(10) DEFAULT NULL,
+  `Status` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`KdPeminjaman`),
+  KEY `KdAnggota` (`KdAnggota`),
+  KEY `Kode` (`Kode`),
+  CONSTRAINT `t_peminjaman_ibfk_2` FOREIGN KEY (`KdAnggota`) REFERENCES `t_anggota` (`KdAnggota`),
+  CONSTRAINT `t_peminjaman_ibfk_3` FOREIGN KEY (`Kode`) REFERENCES `t_koleksi` (`Kode`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
